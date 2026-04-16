@@ -37,8 +37,11 @@ For local Redis, this repo includes `docker-compose.yml`.
 3. Apply `supabase/migrations/202604120001_init_polling_schema.sql` in Supabase SQL Editor or your migration flow.
 4. Start Redis with `docker compose up redis -d`.
 5. Install dependencies with `npm install`.
-6. Start the backend with `npm run dev:server`.
-7. Start the frontend with `npm run dev:client`.
+6. Start both frontend and backend together with `npm run dev`.
+
+If you want to start them separately:
+- `npm run dev:server`
+- `npm run dev:client`
 
 ## Runtime Flow
 1. The client anonymously signs in with Supabase to get a stable user id.
