@@ -1,6 +1,6 @@
 # PulseVote
 
-Real-time collaborative polling app built as a monorepo for interview discussion and live demos.
+Real-time collaborative polling app built as a monorepo for live demos and collaborative decision-making.
 
 The project is intentionally opinionated:
 - `React` renders the dashboard and live chart.
@@ -14,14 +14,14 @@ The project is intentionally opinionated:
 - `apps/server`: Express API, Socket.IO gateway, Redis/Supabase integration
 - `packages/shared`: shared poll rules and socket event names
 - `supabase/migrations`: schema and RPC function
-- `docs`: architecture notes and interview prep
+- `docs`: architecture notes and supporting documentation
 
 ## Why This Design
 - The live vote path is server-authoritative. The browser never increments counts locally.
 - One vote per user is enforced in Redis with a set keyed by poll id.
 - Poll sessions are temporary by design, so Redis TTL is a natural fit.
 - Durable metadata stays in Supabase, while the fast-changing live state stays in Redis.
-- A single realtime mechanism is used in the MVP: `Socket.IO`. That keeps the interview story simpler than mixing multiple live transports.
+- A single realtime mechanism is used in the MVP: `Socket.IO`. That keeps the architecture simpler than mixing multiple live transports.
 
 ## Prerequisites
 - `Node.js 20.19+`
@@ -55,8 +55,7 @@ For local Redis, this repo includes `docker-compose.yml`.
 7. When a poll closes or expires, the final counts are snapshotted into Supabase.
 
 ## Tradeoff To Understand
-Active votes are intentionally treated as ephemeral live session state in Redis and are snapshotted when the poll closes or expires. If Redis is lost mid-session, active in-memory votes are lost. That is acceptable for this interview-oriented MVP because temporary sessions are a feature of the design, but in production you would likely add a durable vote log or outbox pattern.
+Active votes are intentionally treated as ephemeral live session state in Redis and are snapshotted when the poll closes or expires. If Redis is lost mid-session, active in-memory votes are lost. That is acceptable for this MVP because temporary sessions are a feature of the design, but in production you would likely add a durable vote log or outbox pattern.
 
-## Interview Notes
+## Documentation
 - Architecture notes: [docs/architecture.md](docs/architecture.md)
-- Interview prep: [docs/interview-notes.md](docs/interview-notes.md)
